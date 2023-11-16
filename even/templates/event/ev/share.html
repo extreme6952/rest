@@ -1,0 +1,19 @@
+{% extends "event/base.html" %}
+
+{% block title %}Share a post{% endblock %}
+
+{% block content %}
+  {% if sent %}
+    <h1>E-mail successfully sent</h1>
+    <p>
+      "{{ share_event.title }}" was successfully sent to {{ form_share.cleaned_data.to }}.
+    </p>
+  {% else %}
+    <h1>Share "{{ share_event.title }}" by e-mail</h1>
+    <form method="post" novalidate>
+      {{ form_share.as_p }}
+      {% csrf_token %}
+      <input type="submit" value="Send e-mail">
+    </form>
+  {% endif %}
+{% endblock %}

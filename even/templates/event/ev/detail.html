@@ -1,0 +1,33 @@
+{% extends "event/base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+  <h1>{{ details.title }}</h1>
+  <p class="date">
+    Published {{ details.publish }} by {{ details.author }}
+  </p>
+  {{ details.body|linebreaks }}
+  <p>
+    <a href="{% url "event:share_post" details.id %}">
+      Share this post
+    </a>
+  </p>
+  {% with comments.count as total_comments %}
+    <h2>
+      {{ total_comments }} comment{{ total_comments|pluralize }}
+    </h2>
+  {% endwith %}
+  {% for comment in comments %}
+    <div class="comment">
+      <p class="info">
+        Comment {{ forloop.counter }} by {{ comment.name }}
+        {{ comment.created }}
+      </p>
+      {{ comment.body|linebreaks }}
+    </div>
+  {% empty %}
+    <p>There are no comments yet.</p>
+  {% endfor %}
+  {% include "event/ev/includes/comment_form.html" %}
+{% endblock %}
